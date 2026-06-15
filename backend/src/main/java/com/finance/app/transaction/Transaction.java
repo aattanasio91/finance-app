@@ -1,4 +1,4 @@
-package com.finance.app.account;
+package com.finance.app.transaction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,15 +15,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "transactions")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Account {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,34 +33,51 @@ public class Account {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
+    @Column(name = "account_id", nullable = false)
+    private UUID accountId;
+
+    @Column(name = "category_id")
+    private UUID categoryId;
+
+    @Column(name = "merchant_id")
+    private UUID merchantId;
+
+    @Column(name = "parent_transaction_id")
+    private UUID parentTransactionId;
+
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal amount;
+
+    @Column(name = "original_amount", precision = 15, scale = 2)
+    private BigDecimal originalAmount;
+
+    @Column(nullable = false, length = 500)
+    private String description;
+
     @Column(nullable = false)
-    private String name;
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AccountType type;
+    private TransactionType type;
 
     @Column(nullable = false)
     private String currency = "ARS";
 
-    @Column(nullable = false, precision = 15, scale = 2)
-    private BigDecimal balance = BigDecimal.ZERO;
+    @Column(name = "is_manual")
+    private boolean isManual;
 
-    @Column(name = "is_active")
-    private boolean isActive = true;
+    @Column(name = "is_recurring")
+    private boolean isRecurring;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public Account(UUID userId, String name, AccountType type, String currency) {
-        this.userId = userId;
-        this.name = name;
-        this.type = type;
-        this.currency = currency != null ? currency : "ARS";
-    }
 
     @PrePersist
     protected void onCreate() {
