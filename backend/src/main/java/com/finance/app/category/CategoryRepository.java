@@ -10,4 +10,6 @@ public interface CategoryRepository extends JpaRepository<Category, UUID> {
     List<Category> findByType(CategoryType type);
 
     boolean existsByNameAndType(String name, CategoryType type);
+
+    java.util.Optional<Category> findByNameAndType(String name, CategoryType type);
 }
