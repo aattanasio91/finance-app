@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.UUID;
 
 public record DashboardResponse(
-        BigDecimal currentBalance,
+        BigDecimal totalBalance,
         BigDecimal monthIncome,
         BigDecimal monthExpenses,
+        BigDecimal netSavings,
         List<BalanceByAccount> balanceByAccount,
         List<ExpenseByCategory> expensesByCategory,
         List<MonthlyEvolution> monthlyEvolution,

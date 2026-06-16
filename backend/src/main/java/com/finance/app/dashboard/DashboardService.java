@@ -57,6 +57,7 @@ public class DashboardService {
                 currentBalance,
                 monthIncome,
                 monthExpenses,
+                monthIncome.subtract(monthExpenses),
                 balanceByAccount,
                 expensesByCategory,
                 monthlyEvolution,

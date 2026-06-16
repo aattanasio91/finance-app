@@ -151,21 +151,34 @@ export interface ImportJob {
 
 export interface DashboardData {
   totalBalance: number
-  monthlyIncome: number
-  monthlyExpenses: number
+  monthIncome: number
+  monthExpenses: number
   netSavings: number
+  balanceByAccount: BalanceByAccount[]
+  expensesByCategory: CategoryExpense[]
+  monthlyEvolution: MonthlyEvolution[]
+  projection: Projection
+}
+
+export interface BalanceByAccount {
+  accountId: string
+  name: string
+  balance: number
 }
 
 export interface CategoryExpense {
-  categoryId: string
-  categoryName: string
+  category: string
   amount: number
   percentage: number
 }
 
 export interface MonthlyEvolution {
-  year: number
-  month: number
+  month: string
   income: number
   expenses: number
+}
+
+export interface Projection {
+  estimatedEndBalance: number
+  status: 'POSITIVE' | 'NEGATIVE' | 'CAUTION'
 }
