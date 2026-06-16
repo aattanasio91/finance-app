@@ -70,14 +70,15 @@ public class ImportService {
         Account account = accountRepository.findByIdAndUserId(accountId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", accountId));
 
-        CsvParser parser = getParser(sourceType);
-        List<ParsedRow> parsedRows = parser.parse(inputStream);
-
-        String fileHash = computeHash(inputStream);
+        byte[] fileBytes = readBytes(inputStream);
+        String fileHash = computeHash(fileBytes);
 
         if (importJobRepository.existsByFileHash(fileHash)) {
             throw new BadRequestException("This file has already been imported");
         }
+
+        CsvParser parser = getParser(sourceType);
+        List<ParsedRow> parsedRows = parser.parse(new java.io.ByteArrayInputStream(fileBytes));
 
         ImportJob job = new ImportJob();
         job.setUserId(userId);
@@ -118,6 +119,12 @@ public class ImportService {
         job.setStatus(errors == 0 ? ImportJobStatus.COMPLETED
                 : success > 0 ? ImportJobStatus.PARTIAL : ImportJobStatus.FAILED);
         importJobRepository.save(job);
+
+        log.info("Import completed: source={}, file={}, total={}, success={}, errors={}",
+                sourceType, fileName, parsedRows.size(), success, errors);
+        if (errors > 0) {
+            log.warn("Import errors:\n{}", errorLog);
+        }
 
         List<TransactionRaw> allRaws = transactionRawRepository.findByImportJobId(job.getId());
         return ImportJobResponse.from(job, allRaws);
@@ -170,10 +177,17 @@ public class ImportService {
         };
     }
 
-    private String computeHash(InputStream inputStream) {
+    private byte[] readBytes(InputStream inputStream) {
+        try {
+            return inputStream.readAllBytes();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read file", e);
+        }
+    }
+
+    private String computeHash(byte[] bytes) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = inputStream.readAllBytes();
             byte[] hash = digest.digest(bytes);
             return HexFormat.of().formatHex(hash);
         } catch (Exception e) {

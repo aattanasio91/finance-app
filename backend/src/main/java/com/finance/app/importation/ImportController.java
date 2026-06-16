@@ -1,6 +1,7 @@
 package com.finance.app.importation;
 
 import com.finance.app.common.dto.ApiResponse;
+import com.finance.app.importation.santander.SantanderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class ImportController {
 
     private final ImportService importService;
+    private final SantanderService santanderService;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ImportJobResponse>> upload(
@@ -34,6 +36,63 @@ public class ImportController {
 
         ImportJobResponse response = importService.upload(
                 userId, accountId, sourceType,
+                file.getOriginalFilename(),
+                file.getInputStream());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(response));
+    }
+
+    @PostMapping(value = "/santander/bank-pdf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<ImportJobResponse>> importBankPdf(
+            @AuthenticationPrincipal UUID userId,
+            @RequestParam UUID accountId,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        ImportJobResponse response = santanderService.importBankPdf(
+                userId, accountId,
+                file.getOriginalFilename(),
+                file.getInputStream());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(response));
+    }
+
+    @PostMapping(value = "/santander/card-pdf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<ImportJobResponse>> importCardPdf(
+            @AuthenticationPrincipal UUID userId,
+            @RequestParam UUID accountId,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        ImportJobResponse response = santanderService.importCardPdf(
+                userId, accountId,
+                file.getOriginalFilename(),
+                file.getInputStream());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(response));
+    }
+
+    @PostMapping(value = "/santander/card-excel", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<ImportJobResponse>> importCardExcel(
+            @AuthenticationPrincipal UUID userId,
+            @RequestParam UUID accountId,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        ImportJobResponse response = santanderService.importCardExcel(
+                userId, accountId,
+                file.getOriginalFilename(),
+                file.getInputStream());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(response));
+    }
+
+    @PostMapping(value = "/santander/installments-xls", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<ImportJobResponse>> importInstallmentsXls(
+            @AuthenticationPrincipal UUID userId,
+            @RequestParam UUID cardId,
+            @RequestParam UUID accountId,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        ImportJobResponse response = santanderService.importInstallmentsXls(
+                userId, cardId, accountId,
                 file.getOriginalFilename(),
                 file.getInputStream());
 

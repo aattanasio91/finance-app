@@ -3,6 +3,7 @@ package com.finance.app.account;
 import com.finance.app.common.exception.BadRequestException;
 import com.finance.app.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountService {
 
     private final AccountRepository accountRepository;
@@ -36,6 +38,8 @@ public class AccountService {
         Account account = new Account(userId, request.name(), request.type(), request.currency());
         account.setBalance(request.balance() != null ? request.balance() : java.math.BigDecimal.ZERO);
         account = accountRepository.save(account);
+        log.info("Account created: id={}, name={}, type={}, currency={}",
+                account.getId(), account.getName(), account.getType(), account.getCurrency());
         return AccountResponse.from(account);
     }
 
@@ -60,6 +64,7 @@ public class AccountService {
         Account account = accountRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", id));
 
+        log.info("Account deactivated: id={}, name={}", id, account.getName());
         account.setActive(false);
         accountRepository.save(account);
     }

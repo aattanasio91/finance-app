@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import MainLayout from './layouts/MainLayout'
@@ -10,7 +11,8 @@ import CategoriesPage from './pages/CategoriesPage'
 import TransactionsPage from './pages/TransactionsPage'
 import BudgetsPage from './pages/BudgetsPage'
 import RecurringPage from './pages/RecurringPage'
-import ImportPage from './pages/ImportPage'
+import ImportacionPage from './pages/ImportacionPage'
+import './i18n'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth()
@@ -26,19 +28,21 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-      <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-      <Route path="/" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-      <Route path="/accounts" element={<PrivateRoute><AccountsPage /></PrivateRoute>} />
-      <Route path="/cards" element={<PrivateRoute><CardsPage /></PrivateRoute>} />
-      <Route path="/categories" element={<PrivateRoute><CategoriesPage /></PrivateRoute>} />
-      <Route path="/transactions" element={<PrivateRoute><TransactionsPage /></PrivateRoute>} />
-      <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
-      <Route path="/recurring" element={<PrivateRoute><RecurringPage /></PrivateRoute>} />
-      <Route path="/import" element={<PrivateRoute><ImportPage /></PrivateRoute>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <Suspense fallback={null}>
+      <Routes>
+        <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+        <Route path="/" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+        <Route path="/accounts" element={<PrivateRoute><AccountsPage /></PrivateRoute>} />
+        <Route path="/cards" element={<PrivateRoute><CardsPage /></PrivateRoute>} />
+        <Route path="/categories" element={<PrivateRoute><CategoriesPage /></PrivateRoute>} />
+        <Route path="/transactions" element={<PrivateRoute><TransactionsPage /></PrivateRoute>} />
+        <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
+        <Route path="/recurring" element={<PrivateRoute><RecurringPage /></PrivateRoute>} />
+        <Route path="/importacion" element={<PrivateRoute><ImportacionPage /></PrivateRoute>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   )
 }
 

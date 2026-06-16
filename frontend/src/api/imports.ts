@@ -1,13 +1,12 @@
 import client from './client'
 import type { ApiResponse, ImportJob } from '../types'
 
-export const uploadFileApi = async (file: File, sourceType: string): Promise<ApiResponse<ImportJob>> => {
+export const uploadFileApi = async (file: File, sourceType: string, accountId: string): Promise<ApiResponse<ImportJob>> => {
   const formData = new FormData()
   formData.append('file', file)
   formData.append('sourceType', sourceType)
-  const res = await client.post('/imports/upload', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
+  formData.append('accountId', accountId)
+  const res = await client.post('/imports/upload', formData)
   return res.data
 }
 

@@ -1,8 +1,9 @@
-.env
-node_modules/
+backend/log
 build/
-dist/
-target/
-*.log
-.DS_Store
 *.deb
+dist/
+.DS_Store
+.env
+*.log
+node_modules/
+target/

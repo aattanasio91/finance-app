@@ -5,6 +5,7 @@ import com.finance.app.account.AccountRepository;
 import com.finance.app.common.exception.BadRequestException;
 import com.finance.app.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -47,6 +49,8 @@ public class TransactionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", request.accountId()));
 
         if (isDuplicate(userId, request)) {
+            log.warn("Duplicate transaction blocked: user={}, desc={}, amount={}, account={}",
+                    userId, request.description(), request.amount(), request.accountId());
             throw new BadRequestException("Duplicate transaction");
         }
 
@@ -68,6 +72,8 @@ public class TransactionService {
         transaction = transactionRepository.save(transaction);
         updateAccountBalance(account, amount);
 
+        log.info("Transaction created: id={}, userId={}, amount={}, desc={}, type={}",
+                transaction.getId(), userId, amount, transaction.getDescription(), transaction.getType());
         return TransactionResponse.from(transaction);
     }
 
@@ -87,6 +93,7 @@ public class TransactionService {
             transaction.setNotes(request.notes());
 
         transaction = transactionRepository.save(transaction);
+        log.info("Transaction updated: id={}, description={}", transaction.getId(), transaction.getDescription());
         return TransactionResponse.from(transaction);
     }
 
@@ -102,6 +109,7 @@ public class TransactionService {
         account.setBalance(account.getBalance().subtract(transaction.getAmount()));
         accountRepository.save(account);
 
+        log.info("Transaction deleted: id={}, desc={}, amount={}", id, transaction.getDescription(), transaction.getAmount());
         transactionRepository.delete(transaction);
     }
 

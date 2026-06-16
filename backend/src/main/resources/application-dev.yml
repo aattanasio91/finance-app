@@ -21,7 +21,4 @@ spring:
       enabled: true
       path: /h2-console
 
-logging:
-  level:
-    com.finance: DEBUG
-    org.springframework.security: DEBUG
+

@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Finanzapp"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "accounts": "Cuentas",
+    "cards": "Tarjetas",
+    "categories": "Categorías",
+    "transactions": "Transacciones",
+    "budgets": "Presupuestos",
+    "recurring": "Gastos Recurrentes",
+    "import": "Importación",
+    "logout": "Cerrar sesión"
+  },
+  "page": {
+    "dashboard": {
+      "title": "Dashboard",
+      "totalBalance": "Saldo Total",
+      "monthlyIncome": "Ingresos del Mes",
+      "monthlyExpenses": "Gastos del Mes",
+      "netSavings": "Ahorro Neto"
+    },
+    "accounts": {
+      "title": "Cuentas"
+    },
+    "cards": {
+      "title": "Tarjetas"
+    },
+    "categories": {
+      "title": "Categorías"
+    },
+    "transactions": {
+      "title": "Transacciones"
+    },
+    "budgets": {
+      "title": "Presupuestos"
+    },
+    "recurring": {
+      "title": "Gastos Recurrentes"
+    },
+    "import": {
+      "title": "Importación",
+      "tabCsv": "CSV Bancario / Tarjeta",
+      "tabSantander": "Santander",
+      "uploadCsv": "Subir CSV",
+      "uploadSantander": "Subir Documento Santander",
+      "history": "Historial de Importaciones",
+      "chooseFile": "Elegir archivo",
+      "upload": "Subir",
+      "uploading": "Subiendo...",
+      "source": "Origen",
+      "file": "Archivo",
+      "status": "Estado",
+      "total": "Total",
+      "success": "Correctos",
+      "errors": "Errores",
+      "date": "Fecha",
+      "successMsg": "Importados {{success}} de {{total}} registros",
+      "docType": "Tipo de documento",
+      "account": "Cuenta",
+      "card": "Tarjeta",
+      "docTypes": {
+        "BANK_PDF": "Resumen de cuenta (PDF)",
+        "CARD_PDF": "Resumen de tarjeta (PDF)",
+        "CARD_EXCEL": "Últimos consumos (Excel)",
+        "INSTALLMENTS_XLS": "Cuotas pendientes (Excel)"
+      },
+      "noData": "Sin datos"
+    }
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Email",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "loginButton": "Ingresar",
+    "registerButton": "Crear cuenta",
+    "noAccount": "¿No tenés cuenta?",
+    "hasAccount": "¿Ya tenés cuenta?"
+  }
+}

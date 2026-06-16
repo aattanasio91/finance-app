@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import AppBar from '@mui/material/AppBar'
@@ -26,22 +27,23 @@ import { useAuth } from '../contexts/AuthContext'
 
 const DRAWER_WIDTH = 260
 
-const menuItems = [
-  { label: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-  { label: 'Accounts', icon: <AccountBalanceIcon />, path: '/accounts' },
-  { label: 'Cards', icon: <CreditCardIcon />, path: '/cards' },
-  { label: 'Categories', icon: <CategoryIcon />, path: '/categories' },
-  { label: 'Transactions', icon: <ReceiptIcon />, path: '/transactions' },
-  { label: 'Budgets', icon: <SavingsIcon />, path: '/budgets' },
-  { label: 'Recurring', icon: <RepeatIcon />, path: '/recurring' },
-  { label: 'Import CSV', icon: <UploadFileIcon />, path: '/import' },
-]
-
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const { logout, user } = useAuth()
+  const { t } = useTranslation()
+
+  const menuItems = [
+    { label: t('nav.dashboard'), icon: <DashboardIcon />, path: '/' },
+    { label: t('nav.accounts'), icon: <AccountBalanceIcon />, path: '/accounts' },
+    { label: t('nav.cards'), icon: <CreditCardIcon />, path: '/cards' },
+    { label: t('nav.categories'), icon: <CategoryIcon />, path: '/categories' },
+    { label: t('nav.transactions'), icon: <ReceiptIcon />, path: '/transactions' },
+    { label: t('nav.budgets'), icon: <SavingsIcon />, path: '/budgets' },
+    { label: t('nav.recurring'), icon: <RepeatIcon />, path: '/recurring' },
+    { label: t('nav.import'), icon: <UploadFileIcon />, path: '/importacion' },
+  ]
 
   const drawer = (
     <Box>
@@ -69,7 +71,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <ListItem disablePadding>
           <ListItemButton onClick={logout}>
             <ListItemIcon><LogoutIcon /></ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary={t('nav.logout')} />
           </ListItemButton>
         </ListItem>
       </List>
