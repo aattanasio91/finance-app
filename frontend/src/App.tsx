@@ -12,6 +12,7 @@ import TransactionsPage from './pages/TransactionsPage'
 import BudgetsPage from './pages/BudgetsPage'
 import RecurringPage from './pages/RecurringPage'
 import ImportacionPage from './pages/ImportacionPage'
+import InstallmentsPage from './pages/InstallmentsPage'
 import './i18n'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
@@ -40,6 +41,7 @@ function AppRoutes() {
         <Route path="/budgets" element={<PrivateRoute><BudgetsPage /></PrivateRoute>} />
         <Route path="/recurring" element={<PrivateRoute><RecurringPage /></PrivateRoute>} />
         <Route path="/importacion" element={<PrivateRoute><ImportacionPage /></PrivateRoute>} />
+        <Route path="/installments" element={<PrivateRoute><InstallmentsPage /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>

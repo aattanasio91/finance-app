@@ -11,6 +11,7 @@
     "budgets": "Presupuestos",
     "recurring": "Gastos Recurrentes",
     "import": "Importación",
+    "installments": "Cuotas",
     "logout": "Cerrar sesión"
   },
   "page": {
@@ -67,6 +68,21 @@
         "INSTALLMENTS_XLS": "Cuotas pendientes (Excel)"
       },
       "noData": "Sin datos"
+    },
+    "installments": {
+      "title": "Cuotas Pendientes",
+      "filterCard": "Filtrar por tarjeta",
+      "allCards": "Todas las tarjetas",
+      "noData": "No hay cuotas pendientes",
+      "dueDate": "Vencimiento",
+      "installment": "Cuota",
+      "amount": "Monto",
+      "status": "Estado",
+      "action": "Acción",
+      "paid": "Pagada",
+      "pending": "Pendiente",
+      "pay": "Pagar",
+      "overdue": "Vencida"
     }
   },
   "auth": {

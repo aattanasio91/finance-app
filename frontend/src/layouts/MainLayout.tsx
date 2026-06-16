@@ -21,6 +21,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt'
 import SavingsIcon from '@mui/icons-material/Savings'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Divider from '@mui/material/Divider'
 import { useAuth } from '../contexts/AuthContext'
@@ -43,6 +44,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
     { label: t('nav.budgets'), icon: <SavingsIcon />, path: '/budgets' },
     { label: t('nav.recurring'), icon: <RepeatIcon />, path: '/recurring' },
     { label: t('nav.import'), icon: <UploadFileIcon />, path: '/importacion' },
+    { label: t('nav.installments'), icon: <CalendarMonthIcon />, path: '/installments' },
   ]
 
   const drawer = (
