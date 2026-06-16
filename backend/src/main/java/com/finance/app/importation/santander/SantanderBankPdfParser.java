@@ -23,7 +23,7 @@ public class SantanderBankPdfParser {
     );
     private static final Pattern SALDO_INICIAL = Pattern.compile("Saldo Inicial");
     private static final Pattern SIMPLE_MOVEMENT = Pattern.compile(
-            "(\\d{2}/\\d{2}/\\d{2})\\s+(\\d{8})\\s+(.+?)\\s+([\\-\\$]?[\\d\\.]+,\\d{2})"
+            "(\\d{2}/\\d{2}/\\d{2})\\s+(\\d{8})\\s+(.+?)\\s+((?:-\\$\\s*|\\$\\s*)?[\\d\\.]+,\\d{2})"
     );
 
     public List<SantanderParsedRow> parse(InputStream inputStream) {
@@ -45,7 +45,11 @@ public class SantanderBankPdfParser {
                     continue;
                 }
 
-                if (trimmed.contains("Saldo total") || trimmed.startsWith("*") || trimmed.startsWith("Banco")) {
+                if (trimmed.contains("Saldo total") && inMovements) {
+                    inMovements = false;
+                    continue;
+                }
+                if (trimmed.startsWith("*") || trimmed.startsWith("Banco")) {
                     continue;
                 }
 
@@ -77,6 +81,7 @@ public class SantanderBankPdfParser {
             description = simpleMatcher.group(3).trim();
             String amountStr = simpleMatcher.group(4)
                     .replace("$", "")
+                    .replace(" ", "")
                     .replace(".", "")
                     .replace(",", ".");
             try {
